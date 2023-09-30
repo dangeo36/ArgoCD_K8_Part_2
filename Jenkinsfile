@@ -9,19 +9,19 @@ pipeline {
       SONAR_TOKEN = credentials('sonarcloud-creds')
     }
 
-    stages {
-      stage('Sonarcloud scan') {
-        steps {
-          echo 'scanning repo'
-          script {
-            dir('application-code') {
-              env.SONAR_TOKEN = "${SONAR_TOKEN}"
-              sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dangeo36_ArgoCD_K8_Part_2'
-            }
+    // stages {
+    //   stage('Sonarcloud scan') {
+    //     steps {
+    //       echo 'scanning repo'
+    //       script {
+    //         dir('application-code') {
+    //           env.SONAR_TOKEN = "${SONAR_TOKEN}"
+    //           sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dangeo36_ArgoCD_K8_Part_2'
+    //         }
 
-          }
-        }
-      }
+    //       }
+    //     }
+    //   }
 
       stage('Building Jar') {
         steps {
