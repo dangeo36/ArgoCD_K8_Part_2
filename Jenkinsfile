@@ -40,8 +40,10 @@ pipeline {
             def server = Artifactory.server 'my-jfrog'
             def uploadSpec = ''' {
               "files": [{
-                "pattern": "./target/spring-petclinic-3.1.0-SNAPSHOT.jar",
-                "target": "my-jfrog"
+                "pattern": "/var/lib/jenkins/workspace/argo_ci/application-code/target/spring-petclinic-3.1.0-SNAPSHOT.jar",
+                "target": "my-jfrog",
+                "recursive": "false"
+
               }]
             } '''
             server.upload(uploadSpec)
