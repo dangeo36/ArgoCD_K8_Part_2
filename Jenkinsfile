@@ -9,7 +9,7 @@ pipeline {
       SONAR_TOKEN = credentials('sonarcloud-creds')
     }
 
-    // stages {
+    stages {
     //   stage('Sonarcloud scan') {
     //     steps {
     //       echo 'scanning repo'
