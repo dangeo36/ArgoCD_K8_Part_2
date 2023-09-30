@@ -34,6 +34,20 @@ pipeline {
         }
       }
 
+      stage('Upload Artifact to JFrog') {
+        steps {
+          script {
+            def server = Artifactory.server = 'my-jfrog'
+            def uploadSpec = ''' {
+              "files": [{
+                "patterns": "/.target/spring-petclinic-3.1.0-SNAPSHOT.jar",
+                "target": "my-jfrog"
+              }]
+            } '''
+            server.upload(uploadSpec)
+          }
+        }
+      }
       
     }
 }
