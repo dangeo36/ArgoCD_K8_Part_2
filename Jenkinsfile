@@ -71,6 +71,33 @@ pipeline {
       //       }  
       //   }
 
+      stage('Build and Push Docker Image') {
+        steps {
+          echo 'Building and Pushing Docker Image'
+          script {
+            // Define variables
+            def dockerImage = "dangeo36/argocicd" // Replace with your desired image name and tag
+            def ecrRepoUri = "326927831581.dkr.ecr.us-east-1.amazonaws.com/argocicd" // Replace with your ECR repository URI
+            def mavenBuildDir = "application-code/target" // Replace with your Maven build directory
+
+            // Build the Docker image
+            sh "docker build -t ${dockerImage} ${mavenBuildDir}"
+
+            // Authenticate Docker to AWS ECR
+            sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ecrRepoUri}"
+
+            // Tag the Docker image with ECR repository URI
+            sh "docker tag ${dockerImage} ${ecrRepoUri}:${BUILD_NUMBER}"
+
+            // Push the Docker image to ECR
+            sh "docker push ${ecrRepoUri}:${BUILD_NUMBER}"
+
+            // Optionally, clean up local Docker images
+            sh "docker rmi ${dockerImage} ${ecrRepoUri}:${BUILD_NUMBER}"
+          }
+        }
+      }
+
       
     }
 }
