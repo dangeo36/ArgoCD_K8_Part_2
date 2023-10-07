@@ -7,11 +7,6 @@ pipeline {
       AWS_ACCESS_KEY_ID = credentials('aws-creds')
       AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
       SONAR_TOKEN = credentials('sonarcloud-creds')
-      APP_NAME = "argoclinic"
-      IMAGE_TAG = "${BUILD_NUMBER}"
-      IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
-      ECRURL = "https://326927831581.dkr.ecr.us-east-1.amazonaws.com/argocicd"
-      ECR_REGISTRY = "326927831581.dkr.ecr.us-east-1.amazonaws.com/argocicd"
     }
 
     // parameters {
