@@ -14,11 +14,11 @@ pipeline {
       ECR_REGISTRY = "326927831581.dkr.ecr.us-east-1.amazonaws.com/argocicd"
     }
 
-    parameters {
-     string(name: 'ECRURL', defaultValue: 'https://326927831581.dkr.ecr.us-east-1.amazonaws.com', description: 'Please Enter your Docker ECR REGISTRY URL?')
-     string(name: 'REPO', defaultValue: 'argocicd', description: 'Please Enter your Docker Repo Name?')
-     string(name: 'REGION', defaultValue: 'us-east-1', description: 'Please Enter your AWS Region?')
-    }
+    // parameters {
+    //  string(name: 'ECRURL', defaultValue: 'https://326927831581.dkr.ecr.us-east-1.amazonaws.com', description: 'Please Enter your Docker ECR REGISTRY URL?')
+    //  string(name: 'REPO', defaultValue: 'argocicd', description: 'Please Enter your Docker Repo Name?')
+    //  string(name: 'REGION', defaultValue: 'us-east-1', description: 'Please Enter your AWS Region?')
+    // }
 
 
     stages {
@@ -63,18 +63,18 @@ pipeline {
         }
       }
 
-      stage ('Docker Image Build') {  
-            steps {
-                    script {   
-                        dir ('application-code') {
-                            dockerTag = params.REPO + ":" + "${IMAGE_TAG}"
-                            docker.withRegistry( params.ECRURL, 'ecr:us-east-1:aws-creds' ) {
-                            myImage = docker.build(dockerTag)
-                        }
-                    }
-                }
-            }  
-        }
+      // stage ('Docker Image Build') {  
+      //       steps {
+      //               script {   
+      //                   dir ('application-code') {
+      //                       dockerTag = params.REPO + ":" + "${IMAGE_TAG}"
+      //                       docker.withRegistry( params.ECRURL, 'ecr:us-east-1:aws-creds' ) {
+      //                       myImage = docker.build(dockerTag)
+      //                   }
+      //               }
+      //           }
+      //       }  
+      //   }
 
       
     }
