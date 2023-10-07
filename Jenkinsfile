@@ -74,11 +74,13 @@ pipeline {
       stage('Build and Push Docker Image') {
         steps {
           echo 'Building and Pushing Docker Image'
-          script {
+          script { 
+            dir('application-code') {
+
             // Define variables
             def dockerImage = "dangeo36/argocicd" // Replace with your desired image name and tag
             def ecrRepoUri = "326927831581.dkr.ecr.us-east-1.amazonaws.com/argocicd" // Replace with your ECR repository URI
-            def mavenBuildDir = "application-code/target" // Replace with your Maven build directory
+            def mavenBuildDir = "." // Replace with your Maven build directory
 
             // Build the Docker image
             sh "docker build -t ${dockerImage} ${mavenBuildDir}"
@@ -94,6 +96,7 @@ pipeline {
 
             // Optionally, clean up local Docker images
             sh "docker rmi ${dockerImage} ${ecrRepoUri}:${BUILD_NUMBER}"
+          }
           }
         }
       }
