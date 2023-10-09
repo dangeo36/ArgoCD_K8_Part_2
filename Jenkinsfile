@@ -58,19 +58,6 @@ pipeline {
       //   }
       // }
 
-      // stage ('Docker Image Build') {  
-      //       steps {
-      //               script {   
-      //                   dir ('application-code') {
-      //                       dockerTag = params.REPO + ":" + "${IMAGE_TAG}"
-      //                       docker.withRegistry( params.ECRURL, 'ecr:us-east-1:aws-creds' ) {
-      //                       myImage = docker.build(dockerTag)
-      //                   }
-      //               }
-      //           }
-      //       }  
-      //   }
-
       stage('Build and Push Docker Image') {
         steps {
           echo 'Building and Pushing Docker Image'
@@ -100,6 +87,24 @@ pipeline {
           }
         }
       }
+
+      stage ('Trigger cd pipeline') {
+            steps {  
+                echo 'Triggering cd pipeline' 
+                script {
+                    withCredentials([string(credentialsId: 'jenkins-admin-token', variable: 'JENKINS_ADMIN_TOKEN')]) {
+                        sh """
+                        curl http://18.208.251.57:8080/job/argo_cd/buildWithParameters?token=gitops-config \
+                          --user admin:${JENKINS_ADMIN_TOKEN} \
+                          --data verbosity=high \
+                          -H "Content-Type: application/x-www-form-urlencoded" \
+                          -H "Cache-Control: no-cache"
+                            """
+                    }
+                }
+                }
+        } 
+
 
       
     }
