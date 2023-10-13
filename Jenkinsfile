@@ -17,18 +17,18 @@ pipeline {
 
 
     stages {
-      // stage('Sonarcloud scan') {
-      //   steps {
-      //     echo 'scanning repo'
-      //     script {
-      //       dir('application-code') {
-      //         env.SONAR_TOKEN = "${SONAR_TOKEN}"
-      //         sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dangeo36_ArgoCD_K8_Part_2'
-      //       }
+      stage('Sonarcloud scan') {
+        steps {
+          echo 'scanning repo'
+          script {
+            dir('application-code') {
+              env.SONAR_TOKEN = "${SONAR_TOKEN}"
+              sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=dangeo36_ArgoCD_K8_Part_2'
+            }
 
-      //     }
-      //   }
-      // }
+          }
+        }
+      }
 
       stage('Building Jar') {
         steps {
@@ -41,22 +41,22 @@ pipeline {
         }
       }
 
-      // stage('Upload Artifact to JFrog') {
-      //   steps {
-      //     script {
-      //       def server = Artifactory.server 'my-jfrog'
-      //       def uploadSpec = ''' {
-      //         "files": [{
-      //           "pattern": "/var/lib/jenkins/workspace/argo_ci/application-code/target/spring-petclinic-3.1.0-SNAPSHOT.jar",
-      //           "target": "my-jfrog",
-      //           "recursive": "false"
+      stage('Upload Artifact to JFrog') {
+        steps {
+          script {
+            def server = Artifactory.server 'my-jfrog'
+            def uploadSpec = ''' {
+              "files": [{
+                "pattern": "/var/lib/jenkins/workspace/argo_ci/application-code/target/spring-petclinic-3.1.0-SNAPSHOT.jar",
+                "target": "my-jfrog",
+                "recursive": "false"
 
-      //         }]
-      //       } '''
-      //       server.upload(uploadSpec)
-      //     }
-      //   }
-      // }
+              }]
+            } '''
+            server.upload(uploadSpec)
+          }
+        }
+      }
 
       stage('Build and Push Docker Image') {
         steps {
