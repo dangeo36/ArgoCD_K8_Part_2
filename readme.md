@@ -12,6 +12,7 @@ For this part of the project, we will be using Jenkins to build out a CI pipelin
 - Build, Tag, Push Docker Image to Amazon ECR
 - Trigger CD pipeline 
 
+Part 3 GitHub repo: https://github.com/dangeo36/ArgoCD_K8_Part_3.git
 
 ## Building the local artifact and accessing it from localhost 
 ```
