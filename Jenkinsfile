@@ -70,7 +70,7 @@ pipeline {
             def mavenBuildDir = "." // Replace with your Maven build directory
 
             // Build the Docker image
-            sh "docker build -t --debug ${dockerImage} ${mavenBuildDir}"
+            sh "docker build -t ${dockerImage} --progress plain ${mavenBuildDir}"
 
             // Authenticate Docker to AWS ECR
             sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ecrRepoUri}"
